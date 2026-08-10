@@ -1,11 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Notification from '../models/Notification.js';
 
-/**
- * @desc    Get notifications for current user
- * @route   GET /api/notifications
- * @access  Private
- */
 const getNotifications = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20 } = req.query;
   const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -30,11 +25,6 @@ const getNotifications = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Mark a notification as read
- * @route   PUT /api/notifications/:id/read
- * @access  Private
- */
 const markAsRead = asyncHandler(async (req, res) => {
   const notification = await Notification.findById(req.params.id);
 
@@ -54,11 +44,6 @@ const markAsRead = asyncHandler(async (req, res) => {
   res.json({ success: true, data: notification });
 });
 
-/**
- * @desc    Mark all notifications as read
- * @route   PUT /api/notifications/read-all
- * @access  Private
- */
 const markAllAsRead = asyncHandler(async (req, res) => {
   const result = await Notification.updateMany(
     { recipient: req.user._id, isRead: false },
@@ -71,11 +56,6 @@ const markAllAsRead = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get unread notification count
- * @route   GET /api/notifications/unread-count
- * @access  Private
- */
 const getUnreadCount = asyncHandler(async (req, res) => {
   const count = await Notification.countDocuments({
     recipient: req.user._id,

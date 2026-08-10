@@ -23,6 +23,7 @@ import messageRoutes from './routes/messageRoutes.js';
 import creditRoutes from './routes/creditRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import quizRoutes from './routes/quizRoutes.js';
 
 // Socket
 import socketHandler from './socket/socketHandler.js';
@@ -71,6 +72,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/credits', creditRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/quizzes', quizRoutes);
 
 // ─── Root Route ──────────────────────────────────────────────
 app.get('/', (req, res) => {

@@ -1,13 +1,5 @@
-/**
- * @file Conversation.js
- * @description Mongoose model for chat threads between users.
- */
-
 import mongoose from 'mongoose';
 
-/**
- * Conversation Schema definition.
- */
 const conversationSchema = new mongoose.Schema({
   participants: {
     type: [{

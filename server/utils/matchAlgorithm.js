@@ -1,10 +1,5 @@
 import User from '../models/User.js';
 
-/**
- * Helper to safely extract skill name as lowercase string
- * @param {object|string} skill 
- * @returns {string}
- */
 const getSkillName = (skill) => {
   if (!skill) return '';
   if (typeof skill === 'string') return skill.trim().toLowerCase();
@@ -12,26 +7,11 @@ const getSkillName = (skill) => {
   return String(skill).trim().toLowerCase();
 };
 
-/**
- * Helper to safely extract skill category as lowercase string
- * @param {object|string} skill 
- * @returns {string}
- */
 const getSkillCategory = (skill) => {
   if (!skill || typeof skill !== 'object') return '';
   return skill.category ? String(skill.category).trim().toLowerCase() : '';
 };
 
-/**
- * Find matched users for a given user based on reciprocal skills to teach and learn.
- * 
- * @param {object|string} currentUser - User object or User ID
- * @param {object} [options={}] - Filter and pagination options
- * @param {number} [options.limit=20] - Maximum number of matches to return
- * @param {string|null} [options.category=null] - Optional skill category filter
- * @param {string|null} [options.skill=null] - Optional skill name filter
- * @returns {Promise<Array<object>>} Array of match objects with scoring details
- */
 export const findMatches = async (currentUser, options = {}) => {
   try {
     let user = currentUser;
@@ -147,17 +127,6 @@ export const findMatches = async (currentUser, options = {}) => {
   }
 };
 
-/**
- * Explore users with search filters, skill match $elemMatch queries, and pagination.
- * 
- * @param {object} [filters={}] - Query filters
- * @param {string} [filters.category] - Filter by skill category
- * @param {string} [filters.skill] - Filter by skill name
- * @param {number} [filters.page=1] - Page number
- * @param {number} [filters.limit=10] - Items per page
- * @param {string} [filters.excludeUserId] - User ID to exclude from search
- * @returns {Promise<object>} Paginated result containing users, totalCount, page, totalPages
- */
 export const exploreUsers = async (filters = {}) => {
   try {
     const { category, skill, page = 1, limit = 10, excludeUserId } = filters;

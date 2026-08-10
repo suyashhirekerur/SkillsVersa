@@ -1,13 +1,5 @@
-/**
- * @file Session.js
- * @description Mongoose model for skill exchange sessions between users.
- */
-
 import mongoose from 'mongoose';
 
-/**
- * Session Schema definition.
- */
 const sessionSchema = new mongoose.Schema({
   participants: {
     type: [{
@@ -64,6 +56,18 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     default: '',
     trim: true
+  },
+  contract: {
+    agreedByTeacher: { type: Boolean, default: false },
+    agreedByLearner: { type: Boolean, default: false },
+    learningGoals: { type: String, default: '' },
+    deliverables: { type: String, default: '' },
+    signedAt: { type: Date }
+  },
+  resources: {
+    notes: { type: String, default: '' },
+    codeSnippets: { type: String, default: '' },
+    links: [{ title: String, url: String }]
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

@@ -1,13 +1,5 @@
-/**
- * @file Transaction.js
- * @description Mongoose model for logging credit transactions.
- */
-
 import mongoose from 'mongoose';
 
-/**
- * Transaction Schema definition.
- */
 const transactionSchema = new mongoose.Schema({
   from: {
     type: mongoose.Schema.Types.ObjectId,

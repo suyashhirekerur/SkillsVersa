@@ -2,11 +2,6 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/User.js';
 import cloudinary from '../config/cloudinary.js';
 
-/**
- * @desc    Get user public profile by ID
- * @route   GET /api/users/:id
- * @access  Public
- */
 const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
   if (!user) {
@@ -16,11 +11,6 @@ const getProfile = asyncHandler(async (req, res) => {
   res.json({ success: true, data: user });
 });
 
-/**
- * @desc    Update logged-in user profile (name, bio)
- * @route   PUT /api/users/profile
- * @access  Private
- */
 const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (!user) {
@@ -28,19 +18,55 @@ const updateProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  const { name, bio } = req.body;
+  const { name, bio, location, avatar, phone, countryCode } = req.body;
   if (name !== undefined) user.name = name;
   if (bio !== undefined) user.bio = bio;
+  if (location !== undefined) user.location = location;
+  if (avatar !== undefined) user.avatar = avatar;
+  if (phone !== undefined) user.phone = phone;
+  if (countryCode !== undefined) user.countryCode = countryCode;
 
   const updatedUser = await user.save();
   res.json({ success: true, data: updatedUser });
 });
 
-/**
- * @desc    Update logged-in user skills (skillsToTeach, skillsToLearn)
- * @route   PUT /api/users/skills
- * @access  Private
- */
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    res.status(400);
+    throw new Error('Please provide current and new password');
+  }
+
+  if (newPassword.length < 6) {
+    res.status(400);
+    throw new Error('New password must be at least 6 characters long');
+  }
+
+  const user = await User.findById(req.user._id).select('+password');
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  if (!user.password) {
+    res.status(400);
+    throw new Error('OAuth accounts signed in via Google cannot change password');
+  }
+
+  const isMatch = await user.matchPassword(currentPassword);
+  if (!isMatch) {
+    res.status(401);
+    throw new Error('Current password is incorrect');
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.json({ success: true, message: 'Password updated successfully' });
+});
+
+
 const updateSkills = asyncHandler(async (req, res) => {
   const { skillsToTeach, skillsToLearn } = req.body;
 
@@ -83,11 +109,6 @@ const updateSkills = asyncHandler(async (req, res) => {
   res.json({ success: true, data: updatedUser });
 });
 
-/**
- * @desc    Upload avatar to Cloudinary and update user profile
- * @route   POST /api/users/avatar
- * @access  Private
- */
 const uploadAvatar = asyncHandler(async (req, res) => {
   if (!req.file) {
     res.status(400);
@@ -124,11 +145,7 @@ const uploadAvatar = asyncHandler(async (req, res) => {
   res.json({ success: true, data: updatedUser });
 });
 
-/**
- * @desc    Search users by name, skill, category with pagination
- * @route   GET /api/users/search
- * @access  Public
- */
+
 const searchUsers = asyncHandler(async (req, res) => {
   const { skill, category, name, page = 1, limit = 10 } = req.query;
 
@@ -187,4 +204,14 @@ const searchUsers = asyncHandler(async (req, res) => {
   });
 });
 
-export { getProfile, updateProfile, updateSkills, uploadAvatar, searchUsers };
+
+const getLeaderboard = asyncHandler(async (req, res) => {
+  const topUsers = await User.find({})
+    .select('-password')
+    .sort({ xp: -1, averageRating: -1, totalReviews: -1 })
+    .limit(10);
+
+  res.json({ success: true, data: topUsers });
+});
+
+export { getProfile, updateProfile, updateSkills, uploadAvatar, searchUsers, changePassword, getLeaderboard };

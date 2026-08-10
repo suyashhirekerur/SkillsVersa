@@ -2,17 +2,6 @@ import mongoose from 'mongoose';
 import User from '../models/User.js';
 import Transaction from '../models/Transaction.js';
 
-/**
- * Transfer credits atomically between two users for a skill exchange session.
- * 
- * @param {string} fromUserId - ID of user spending credits
- * @param {string} toUserId - ID of user earning credits
- * @param {number} amount - Amount of credits to transfer
- * @param {string} [sessionId] - Associated session ID
- * @param {string} [description] - Description for the transaction
- * @returns {Promise<object>} Object containing success status and updated balances
- * @throws {Error} If insufficient credits or transaction fails
- */
 export const transferCredits = async (fromUserId, toUserId, amount, sessionId = null, description = 'Session credit transfer') => {
   if (!fromUserId || !toUserId) {
     throw new Error('Both sender and receiver user IDs are required');
@@ -88,15 +77,6 @@ export const transferCredits = async (fromUserId, toUserId, amount, sessionId = 
   }
 };
 
-/**
- * Record a mutual exchange transaction with 0 credit transfer.
- * 
- * @param {string} user1Id - First user ID
- * @param {string} user2Id - Second user ID
- * @param {string} [sessionId] - Associated session ID
- * @returns {Promise<object>} Object indicating success
- * @throws {Error} If users not found or recording fails
- */
 export const handleMutualExchange = async (user1Id, user2Id, sessionId = null) => {
   try {
     if (!user1Id || !user2Id) {
@@ -138,14 +118,6 @@ export const handleMutualExchange = async (user1Id, user2Id, sessionId = null) =
   }
 };
 
-/**
- * Grant a signup bonus to a newly registered user.
- * 
- * @param {string} userId - Target user ID
- * @param {number} [amount=50] - Bonus credit amount
- * @returns {Promise<object>} Object with success status and new balance
- * @throws {Error} If user not found or bonus fails
- */
 export const grantSignupBonus = async (userId, amount = 50) => {
   try {
     if (!userId) {
@@ -184,15 +156,6 @@ export const grantSignupBonus = async (userId, amount = 50) => {
   }
 };
 
-/**
- * Refund credits to a user due to session cancellation.
- * 
- * @param {string} userId - Target user ID
- * @param {number} amount - Amount of credits to refund
- * @param {string} [sessionId] - Associated session ID
- * @returns {Promise<object>} Object with success status and new balance
- * @throws {Error} If user not found or refund fails
- */
 export const refundCredits = async (userId, amount, sessionId = null) => {
   try {
     if (!userId) {

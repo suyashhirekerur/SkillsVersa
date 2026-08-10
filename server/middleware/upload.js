@@ -1,22 +1,8 @@
-/**
- * @file upload.js
- * @description Multer upload middleware configuration using memory storage and image mime type validation.
- */
-
 import multer from 'multer';
 
-/**
- * Memory storage instance for keeping uploaded files as Buffer objects in memory.
- */
 const storage = multer.memoryStorage();
 
-/**
- * File filter function to restrict upload file types to JPEG, PNG, and WEBP images.
- * 
- * @param {import('express').Request} req - Express request object
- * @param {Express.Multer.File} file - Uploaded file object
- * @param {multer.FileFilterCallback} cb - Callback to pass validation status or error
- */
+
 const fileFilter = (req, file, cb) => {
   const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
@@ -27,9 +13,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-/**
- * Configured Multer instance with memory storage, file size limit (5MB), and mime-type file filter.
- */
+
 const upload = multer({
   storage,
   fileFilter,
@@ -38,5 +22,42 @@ const upload = multer({
   },
 });
 
+const chatFileFilter = (req, file, cb) => {
+  // Allow all standard images, audio, video, pdf, office docs, archives, text
+  const isAllowed = 
+    file.mimetype.startsWith('image/') ||
+    file.mimetype.startsWith('video/') ||
+    file.mimetype.startsWith('audio/') ||
+    file.mimetype.startsWith('text/') ||
+    [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/zip',
+      'application/x-zip-compressed',
+      'application/x-rar-compressed',
+      'application/json',
+      'application/octet-stream',
+    ].includes(file.mimetype);
+
+  if (isAllowed) {
+    cb(null, true);
+  } else {
+    cb(new Error('File type not supported as chat attachment.'), false);
+  }
+};
+
+const chatUpload = multer({
+  storage,
+  fileFilter: chatFileFilter,
+  limits: {
+    fileSize: 25 * 1024 * 1024, // 25MB limit for chat attachments
+  },
+});
+
 export default upload;
-export { upload };
+export { upload, chatUpload };

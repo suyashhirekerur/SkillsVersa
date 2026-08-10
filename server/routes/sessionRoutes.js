@@ -1,8 +1,3 @@
-/**
- * @file sessionRoutes.js
- * @description Session routes for managing skill exchange sessions, lifecycle, and status updates.
- */
-
 import express from 'express';
 import {
   createSession,
@@ -12,6 +7,8 @@ import {
   rejectSession,
   completeSession,
   cancelSession,
+  signContract,
+  saveNotes,
 } from '../controllers/sessionController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -24,5 +21,7 @@ router.put('/:id/accept', protect, acceptSession);
 router.put('/:id/reject', protect, rejectSession);
 router.put('/:id/complete', protect, completeSession);
 router.put('/:id/cancel', protect, cancelSession);
+router.put('/:id/contract', protect, signContract);
+router.put('/:id/notes', protect, saveNotes);
 
 export default router;

@@ -1,13 +1,6 @@
-/**
- * @file Message.js
- * @description Mongoose model for individual chat messages in a conversation.
- */
-
 import mongoose from 'mongoose';
 
-/**
- * Message Schema definition.
- */
+
 const messageSchema = new mongoose.Schema({
   conversation: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,9 +15,32 @@ const messageSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: [true, 'Message text is required'],
+    default: '',
     trim: true
   },
+  attachments: [{
+    url: {
+      type: String,
+      required: true
+    },
+    fileType: {
+      type: String,
+      enum: ['image', 'video', 'audio', 'document', 'other'],
+      default: 'other'
+    },
+    fileName: {
+      type: String,
+      default: 'Attachment'
+    },
+    fileSize: {
+      type: Number,
+      default: 0
+    },
+    publicId: {
+      type: String,
+      default: ''
+    }
+  }],
   readBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

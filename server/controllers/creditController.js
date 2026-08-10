@@ -1,11 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Transaction from '../models/Transaction.js';
 
-/**
- * @desc    Get current user's credit balance
- * @route   GET /api/credits/balance
- * @access  Private
- */
 const getBalance = asyncHandler(async (req, res) => {
   res.json({
     success: true,
@@ -13,11 +8,6 @@ const getBalance = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get credit transaction history
- * @route   GET /api/credits/transactions
- * @access  Private
- */
 const getTransactions = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20 } = req.query;
   const skip = (parseInt(page) - 1) * parseInt(limit);

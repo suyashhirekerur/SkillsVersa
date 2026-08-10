@@ -1,0 +1,1479 @@
+/* ==========================================================================
+   SkillsVersa Landing Page — Design System & Custom Vanilla CSS
+   ========================================================================== */
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-card-hover: #1a1a28;
+  --primary-accent: #6c5ce7;
+  --secondary-accent: #00cec9;
+  --gradient-accent: linear-gradient(135deg, #6c5ce7, #00cec9);
+  --gradient-accent-hover: linear-gradient(135deg, #7d6ef2, #18e6e1);
+  --gradient-text: linear-gradient(135deg, #a29bfe, #00cec9);
+  --gradient-glow: linear-gradient(135deg, rgba(108, 92, 231, 0.35), rgba(0, 206, 201, 0.35));
+  --text-heading: #ffffff;
+  --text-body: #a0a0b0;
+  --text-muted: #6c6c80;
+  --card-border: rgba(108, 92, 231, 0.2);
+  --card-border-glow: rgba(108, 92, 231, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* Base Landing Container */
+.sv-landing {
+  background-color: var(--bg-dark);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Typography Defaults */
+.sv-landing h1,
+.sv-landing h2,
+.sv-landing h3,
+.sv-landing h4 {
+  font-family: var(--font-heading);
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+}
+
+.sv-gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.sv-gradient-text-alt {
+  background: linear-gradient(135deg, #a29bfe 0%, #00cec9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Common Section Header Component */
+.sv-section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3.5rem auto;
+  padding: 0 1rem;
+}
+
+.sv-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  background: rgba(108, 92, 231, 0.12);
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: #a29bfe;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sv-section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.sv-section-header p {
+  font-size: 1.125rem;
+  color: var(--text-body);
+}
+
+@media (max-width: 768px) {
+  .sv-section-header h2 {
+    font-size: 1.875rem;
+  }
+  .sv-section-header p {
+    font-size: 1rem;
+  }
+}
+
+/* Glassmorphism Card Style */
+.sv-glass-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sv-glass-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--card-border-glow);
+  box-shadow: 0 12px 35px rgba(108, 92, 231, 0.18), 0 0 20px rgba(0, 206, 201, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Scroll-triggered Observer Animations */
+.sv-fade-in {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.sv-fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sv-stagger > * {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sv-stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sv-stagger.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+.sv-stagger.is-visible > *:nth-child(2) { transition-delay: 0.1s; }
+.sv-stagger.is-visible > *:nth-child(3) { transition-delay: 0.15s; }
+.sv-stagger.is-visible > *:nth-child(4) { transition-delay: 0.2s; }
+.sv-stagger.is-visible > *:nth-child(5) { transition-delay: 0.25s; }
+.sv-stagger.is-visible > *:nth-child(6) { transition-delay: 0.3s; }
+.sv-stagger.is-visible > *:nth-child(7) { transition-delay: 0.35s; }
+.sv-stagger.is-visible > *:nth-child(8) { transition-delay: 0.4s; }
+.sv-stagger.is-visible > *:nth-child(9) { transition-delay: 0.45s; }
+.sv-stagger.is-visible > *:nth-child(10) { transition-delay: 0.5s; }
+.sv-stagger.is-visible > *:nth-child(11) { transition-delay: 0.55s; }
+.sv-stagger.is-visible > *:nth-child(12) { transition-delay: 0.6s; }
+.sv-stagger.is-visible > *:nth-child(13) { transition-delay: 0.65s; }
+.sv-stagger.is-visible > *:nth-child(14) { transition-delay: 0.7s; }
+.sv-stagger.is-visible > *:nth-child(15) { transition-delay: 0.75s; }
+.sv-stagger.is-visible > *:nth-child(16) { transition-delay: 0.8s; }
+.sv-stagger.is-visible > *:nth-child(17) { transition-delay: 0.85s; }
+.sv-stagger.is-visible > *:nth-child(18) { transition-delay: 0.9s; }
+.sv-stagger.is-visible > *:nth-child(19) { transition-delay: 0.95s; }
+.sv-stagger.is-visible > *:nth-child(20) { transition-delay: 1s; }
+
+/* Buttons */
+.sv-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--gradient-accent);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.9rem 2.2rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(108, 92, 231, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.sv-btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 35px rgba(108, 92, 231, 0.6), 0 0 20px rgba(0, 206, 201, 0.4);
+  background: var(--gradient-accent-hover);
+  color: #ffffff;
+}
+
+.sv-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.9rem 2.2rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sv-btn-secondary:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--secondary-accent);
+  color: var(--secondary-accent);
+  box-shadow: 0 6px 20px rgba(0, 206, 201, 0.2);
+}
+
+/* Floating Animations */
+@keyframes svFloat1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(25px, -35px) rotate(8deg); }
+}
+
+@keyframes svFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 30px) scale(1.1); }
+}
+
+@keyframes svGlowPulse {
+  0%, 100% { opacity: 0.35; filter: blur(60px); }
+  50% { opacity: 0.65; filter: blur(80px); }
+}
+
+/* ==========================================================================
+   SECTION 1 — Hero Section
+   ========================================================================== */
+.sv-hero {
+  position: relative;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem 6rem 1.5rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.sv-hero-bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sv-blob-1 {
+  top: 10%;
+  left: 15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(108, 92, 231, 0.35) 0%, rgba(108, 92, 231, 0) 70%);
+  animation: svFloat1 12s infinite ease-in-out, svGlowPulse 8s infinite ease-in-out;
+}
+
+.sv-blob-2 {
+  bottom: 10%;
+  right: 15%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 206, 201, 0.3) 0%, rgba(0, 206, 201, 0) 70%);
+  animation: svFloat2 10s infinite ease-in-out, svGlowPulse 6s infinite ease-in-out;
+}
+
+.sv-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sv-hero-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  background: rgba(108, 92, 231, 0.15);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  color: #a29bfe;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.15);
+}
+
+.sv-hero-heading {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+}
+
+.sv-hero-subheading {
+  font-size: 1.25rem;
+  color: var(--text-body);
+  max-width: 750px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.7;
+}
+
+.sv-hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.sv-hero-trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.5rem 1.2rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 768px) {
+  .sv-hero {
+    padding: 3rem 1rem 4rem 1rem;
+    min-height: auto;
+  }
+  .sv-hero-heading {
+    font-size: 2.5rem;
+  }
+  .sv-hero-subheading {
+    font-size: 1rem;
+  }
+  .sv-hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  .sv-btn-primary, .sv-btn-secondary {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   SECTION 2 — Platform Stats Bar
+   ========================================================================== */
+.sv-stats-section {
+  padding: 2rem 1.5rem;
+  max-width: 1150px;
+  margin: -2rem auto 5rem auto;
+  position: relative;
+  z-index: 5;
+}
+
+.sv-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 2rem 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.sv-stat-item {
+  padding: 0.5rem 1.5rem;
+  position: relative;
+}
+
+.sv-stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sv-stat-number {
+  font-family: var(--font-heading);
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0.35rem;
+}
+
+.sv-stat-label {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .sv-stats-section {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+  }
+  .sv-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 0;
+  }
+  .sv-stat-item:nth-child(2)::after {
+    display: none;
+  }
+  .sv-stat-number {
+    font-size: 2rem;
+  }
+}
+
+/* ==========================================================================
+   SECTION 3 — How It Works
+   ========================================================================== */
+.sv-how-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sv-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  position: relative;
+}
+
+.sv-step-card {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+.sv-step-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(108, 92, 231, 0.15);
+  border: 2px solid var(--primary-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--secondary-accent);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+  position: relative;
+}
+
+.sv-step-icon {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.sv-step-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.85rem;
+  color: #ffffff;
+}
+
+.sv-step-desc {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+@media (max-width: 992px) {
+  .sv-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
+/* ==========================================================================
+   SECTION 4 — Trending Skills
+   ========================================================================== */
+.sv-trending-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sv-pills-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sv-skill-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: svPillFloat 6s ease-in-out infinite alternate;
+}
+
+.sv-skill-pill:nth-child(2n) { animation-delay: 0.5s; }
+.sv-skill-pill:nth-child(3n) { animation-delay: 1s; }
+.sv-skill-pill:nth-child(5n) { animation-delay: 1.5s; }
+
+@keyframes svPillFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+.sv-skill-pill:hover {
+  transform: translateY(-4px) scale(1.04) !important;
+  background: rgba(108, 92, 231, 0.2);
+  border-color: var(--secondary-accent);
+  box-shadow: 0 8px 20px rgba(0, 206, 201, 0.2);
+}
+
+.sv-skill-pill.hot-pill {
+  background: rgba(108, 92, 231, 0.15);
+  border-color: rgba(255, 107, 107, 0.4);
+}
+
+.sv-fire-icon {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   SECTION 5 — Why SkillsVersa?
+   ========================================================================== */
+.sv-why-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sv-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.sv-feature-card {
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sv-icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--gradient-glow);
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 1.35rem;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.sv-feature-card:hover .sv-icon-circle {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.sv-feature-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.sv-feature-desc {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.65;
+}
+
+@media (max-width: 992px) {
+  .sv-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .sv-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   SECTION 7 — Featured Skill Profiles
+   ========================================================================== */
+.sv-profiles-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sv-profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.sv-profile-card {
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sv-avatar-wrapper {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  padding: 3px;
+  background: var(--gradient-accent);
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+}
+
+.sv-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #1a1a26;
+}
+
+.sv-avatar-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #1a1a26;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--secondary-accent);
+}
+
+.sv-profile-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.sv-profile-bio {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  margin-bottom: 1.25rem;
+  min-height: 2.8rem;
+}
+
+.sv-skills-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.85rem;
+}
+
+.sv-skills-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.sv-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sv-mini-pill-teach {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(0, 206, 201, 0.12);
+  border: 1px solid rgba(0, 206, 201, 0.3);
+  color: #00cec9;
+  font-weight: 600;
+}
+
+.sv-mini-pill-learn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(108, 92, 231, 0.15);
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: #a29bfe;
+  font-weight: 600;
+}
+
+.sv-profile-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 1rem;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  color: var(--text-body);
+}
+
+.sv-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.sv-btn-view-profile {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  text-align: center;
+}
+
+.sv-btn-view-profile:hover {
+  background: var(--gradient-accent);
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+@media (max-width: 992px) {
+  .sv-profiles-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+/* ==========================================================================
+   SECTION 8 — Testimonials
+   ========================================================================== */
+.sv-testimonials-section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sv-testimonial-carousel {
+  position: relative;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.sv-testimonial-card {
+  padding: 3rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.sv-quote-icon {
+  font-size: 3.5rem;
+  color: rgba(108, 92, 231, 0.3);
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  line-height: 1;
+}
+
+.sv-stars-row {
+  display: flex;
+  gap: 0.3rem;
+  color: #ffd166;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.sv-testimonial-quote {
+  font-size: 1.2rem;
+  color: #ffffff;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 2rem;
+  max-width: 700px;
+}
+
+.sv-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+}
+
+.sv-author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.sv-author-name {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.sv-exchange-pill {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(108, 92, 231, 0.2);
+  border: 1px solid rgba(108, 92, 231, 0.4);
+  color: #a29bfe;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.2rem;
+}
+
+.sv-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.sv-carousel-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sv-carousel-btn:hover {
+  background: var(--gradient-accent);
+  border-color: transparent;
+}
+
+.sv-carousel-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sv-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sv-dot.active {
+  width: 28px;
+  border-radius: 9999px;
+  background: var(--secondary-accent);
+}
+
+/* ==========================================================================
+   SECTION 9 — Skill Categories
+   ========================================================================== */
+.sv-categories-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sv-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.sv-category-card {
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sv-category-emoji {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+.sv-category-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.sv-category-count {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sv-category-card:hover {
+  background: rgba(108, 92, 231, 0.12);
+}
+
+.sv-category-card:hover .sv-category-title {
+  color: var(--secondary-accent);
+}
+
+@media (max-width: 992px) {
+  .sv-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .sv-categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   SECTION 10 — Before vs After Comparison
+   ========================================================================== */
+.sv-comparison-section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sv-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  position: relative;
+}
+
+.sv-vs-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  border: 4px solid var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  color: #ffffff;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.6);
+}
+
+.sv-compare-card-before {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+}
+
+.sv-compare-card-after {
+  background: rgba(0, 206, 201, 0.06);
+  border: 1px solid rgba(0, 206, 201, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 0 30px rgba(0, 206, 201, 0.1);
+}
+
+.sv-compare-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sv-compare-header.before { color: #f87171; }
+.sv-compare-header.after { color: #00cec9; }
+
+.sv-compare-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.sv-compare-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.sv-icon-cross { color: #ef4444; font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+.sv-icon-check { color: #00cec9; font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+@media (max-width: 768px) {
+  .sv-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  .sv-vs-badge {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: -1rem auto;
+  }
+}
+
+/* ==========================================================================
+   SECTION 11 — Gamification Teaser
+   ========================================================================== */
+.sv-gamification-section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sv-badges-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}
+
+.sv-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  width: 140px;
+}
+
+.sv-badge-icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gradient-glow);
+  border: 2px solid var(--primary-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+  transition: all 0.3s ease;
+}
+
+.sv-badge-item:hover .sv-badge-icon-box {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 0 30px rgba(0, 206, 201, 0.5);
+  border-color: var(--secondary-accent);
+}
+
+.sv-badge-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+}
+
+.sv-badge-tooltip {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  background: rgba(18, 18, 26, 0.95);
+  border: 1px solid var(--secondary-accent);
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  color: #ffffff;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 20;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.sv-badge-item:hover .sv-badge-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sv-leaderboard-preview {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 24px;
+}
+
+.sv-lb-header {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.sv-lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.sv-lb-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sv-lb-table td {
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sv-rank-medal {
+  font-size: 1.3rem;
+}
+
+/* ==========================================================================
+   SECTION 12 — FAQ Accordion
+   ========================================================================== */
+.sv-faq-section {
+  padding: 5rem 1.5rem;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.sv-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sv-faq-item {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.sv-faq-question {
+  width: 100%;
+  padding: 1.35rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+}
+
+.sv-faq-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--secondary-accent);
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.sv-faq-item.active {
+  border-color: var(--card-border-glow);
+  box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sv-faq-item.active .sv-faq-toggle {
+  transform: rotate(180deg);
+  background: var(--gradient-accent);
+  color: #fff;
+}
+
+.sv-faq-answer {
+  padding: 0 1.5rem 1.35rem 1.5rem;
+  font-size: 0.98rem;
+  color: var(--text-body);
+  line-height: 1.65;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+
+/* ==========================================================================
+   SECTION 14 — Footer
+   ========================================================================== */
+.sv-footer-container {
+  background: #06060a;
+  border-top: 1px solid rgba(108, 92, 231, 0.25);
+  padding: 4.5rem 2rem 2.5rem 2rem;
+  color: var(--text-body);
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.sv-footer-top-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+}
+
+.sv-footer-grid {
+  max-width: 1340px;
+  margin: 0 auto 3.5rem auto;
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1.5fr;
+  gap: 3.5rem;
+}
+
+.sv-footer-brand-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.85rem;
+}
+
+.sv-footer-brand-tagline {
+  font-size: 0.95rem;
+  color: var(--secondary-accent);
+  font-weight: 600;
+  margin-bottom: 0.85rem;
+}
+
+.sv-footer-brand-desc {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  max-width: 360px;
+  line-height: 1.65;
+}
+
+.sv-footer-col-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.sv-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.sv-footer-link {
+  color: var(--text-body);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.25s ease, transform 0.25s ease;
+  display: inline-block;
+}
+
+.sv-footer-link:hover {
+  color: var(--secondary-accent);
+  transform: translateX(3px);
+}
+
+.sv-social-links {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.sv-social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sv-social-icon:hover {
+  background: var(--gradient-accent);
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+}
+
+.sv-footer-email {
+  font-size: 0.9rem;
+  color: #a29bfe;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sv-footer-bottom {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sv-footer-author {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.sv-author-link {
+  font-weight: 700;
+  color: #a29bfe;
+  text-decoration: none;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.sv-author-link:hover {
+  color: #00cec9;
+  text-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+}
+
+.sv-author-socials {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.sv-author-sublink {
+  color: var(--text-body);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.sv-author-sublink:hover {
+  color: #a29bfe;
+  text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+  .sv-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sv-footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .sv-footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* Mobile Section Padding & Spacing Optimization */
+@media (max-width: 768px) {
+  .sv-how-section,
+  .sv-trending-section,
+  .sv-why-section,
+  .sv-profiles-section,
+  .sv-testimonials-section,
+  .sv-categories-section,
+  .sv-comparison-section,
+  .sv-gamification-section,
+  .sv-faq-section {
+    padding: 2.5rem 1rem !important;
+  }
+
+  .sv-section-header {
+    margin-bottom: 2rem !important;
+  }
+}
+

@@ -1,13 +1,5 @@
-/**
- * @file Review.js
- * @description Mongoose model for post-session reviews.
- */
-
 import mongoose from 'mongoose';
 
-/**
- * Review Schema definition.
- */
 const reviewSchema = new mongoose.Schema({
   reviewer: {
     type: mongoose.Schema.Types.ObjectId,

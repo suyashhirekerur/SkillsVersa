@@ -1,8 +1,5 @@
 import nodemailer from 'nodemailer';
 
-/**
- * Nodemailer transport configuration
- */
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: parseInt(process.env.EMAIL_PORT, 10) || 587,
@@ -12,16 +9,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/**
- * Send a general HTML email
- * 
- * @param {object} options - Email parameters
- * @param {string} options.to - Recipient email address
- * @param {string} options.subject - Email subject line
- * @param {string} options.html - HTML content body
- * @returns {Promise<object>} Result containing success status and messageId
- * @throws {Error} If sending fails or inputs are invalid
- */
 export const sendEmail = async ({ to, subject, html }) => {
   try {
     if (!to) {
@@ -51,15 +38,6 @@ export const sendEmail = async ({ to, subject, html }) => {
   }
 };
 
-/**
- * Generate formatted HTML body for session notification emails
- * 
- * @param {string} recipientName 
- * @param {object} sessionDetails 
- * @param {string} action - 'request', 'accepted', 'rejected', 'completed', 'cancelled'
- * @param {object} actionConfig 
- * @returns {string} Formatted HTML string
- */
 const buildSessionEmailHtml = (recipientName, sessionDetails, action, actionConfig) => {
   const skillName = sessionDetails.skillName || sessionDetails.skill || 'Skill Exchange';
   const partnerName = sessionDetails.partnerName || sessionDetails.senderName || 'A Platform User';
@@ -159,17 +137,6 @@ const buildSessionEmailHtml = (recipientName, sessionDetails, action, actionConf
   `;
 };
 
-/**
- * Send a formatted notification email for session lifecycle events
- * (request, accepted, rejected, completed, cancelled)
- * 
- * @param {string} recipientEmail - Recipient email address
- * @param {string} recipientName - Recipient user name
- * @param {object} sessionDetails - Session metadata (skillName, scheduledTime, duration, partnerName, message)
- * @param {string} action - Event type: 'request' | 'accepted' | 'rejected' | 'completed' | 'cancelled'
- * @returns {Promise<object>} Result containing success status and messageId
- * @throws {Error} If email sending fails
- */
 export const sendSessionNotificationEmail = async (recipientEmail, recipientName, sessionDetails = {}, action) => {
   try {
     if (!recipientEmail) {

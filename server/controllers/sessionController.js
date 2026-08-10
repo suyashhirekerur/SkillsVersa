@@ -5,11 +5,6 @@ import Notification from '../models/Notification.js';
 import { transferCredits, handleMutualExchange, refundCredits } from '../utils/creditManager.js';
 import { sendSessionNotificationEmail } from '../utils/sendEmail.js';
 
-/**
- * @desc    Create a new session request
- * @route   POST /api/sessions
- * @access  Private
- */
 const createSession = asyncHandler(async (req, res) => {
   const { partnerId, skillOffered, skillRequested, scheduledDate, duration, creditCost, meetingLink, notes } = req.body;
 
@@ -76,11 +71,6 @@ const createSession = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get current user's sessions
- * @route   GET /api/sessions
- * @access  Private
- */
 const getUserSessions = asyncHandler(async (req, res) => {
   const { status, page = 1, limit = 10 } = req.query;
   const query = { participants: req.user._id };
@@ -111,11 +101,6 @@ const getUserSessions = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get session by ID
- * @route   GET /api/sessions/:id
- * @access  Private
- */
 const getSessionById = asyncHandler(async (req, res) => {
   const session = await Session.findById(req.params.id)
     .populate('participants', 'name avatar email bio averageRating skillsToTeach skillsToLearn')
@@ -138,11 +123,6 @@ const getSessionById = asyncHandler(async (req, res) => {
   res.json({ success: true, data: session });
 });
 
-/**
- * @desc    Accept a session request
- * @route   PUT /api/sessions/:id/accept
- * @access  Private
- */
 const acceptSession = asyncHandler(async (req, res) => {
   const session = await Session.findById(req.params.id);
 
@@ -207,11 +187,6 @@ const acceptSession = asyncHandler(async (req, res) => {
   res.json({ success: true, data: populatedSession });
 });
 
-/**
- * @desc    Reject a session request
- * @route   PUT /api/sessions/:id/reject
- * @access  Private
- */
 const rejectSession = asyncHandler(async (req, res) => {
   const session = await Session.findById(req.params.id);
 
@@ -262,11 +237,6 @@ const rejectSession = asyncHandler(async (req, res) => {
   res.json({ success: true, data: session });
 });
 
-/**
- * @desc    Mark session as completed (requires both participants to confirm)
- * @route   PUT /api/sessions/:id/complete
- * @access  Private
- */
 const completeSession = asyncHandler(async (req, res) => {
   const session = await Session.findById(req.params.id);
 
@@ -386,11 +356,6 @@ const completeSession = asyncHandler(async (req, res) => {
   res.json({ success: true, data: populatedSession });
 });
 
-/**
- * @desc    Cancel a session
- * @route   PUT /api/sessions/:id/cancel
- * @access  Private
- */
 const cancelSession = asyncHandler(async (req, res) => {
   const session = await Session.findById(req.params.id);
 
@@ -440,6 +405,66 @@ const cancelSession = asyncHandler(async (req, res) => {
   res.json({ success: true, data: session });
 });
 
+const signContract = asyncHandler(async (req, res) => {
+  const { learningGoals, deliverables } = req.body;
+  const session = await Session.findById(req.params.id);
+
+  if (!session) {
+    res.status(404);
+    throw new Error('Session not found');
+  }
+
+  const isParticipant = session.participants.some(p => p.toString() === req.user._id.toString());
+  if (!isParticipant) {
+    res.status(403);
+    throw new Error('Not authorized to access this session contract');
+  }
+
+  if (!session.contract) {
+    session.contract = { agreedByTeacher: false, agreedByLearner: false, learningGoals: '', deliverables: '' };
+  }
+
+  if (learningGoals) session.contract.learningGoals = learningGoals;
+  if (deliverables) session.contract.deliverables = deliverables;
+
+  // Toggle or set signature for current user
+  if (session.createdBy.toString() === req.user._id.toString()) {
+    session.contract.agreedByTeacher = true;
+  } else {
+    session.contract.agreedByLearner = true;
+  }
+
+  session.contract.signedAt = new Date();
+  await session.save();
+
+  res.json({ success: true, data: session });
+});
+
+const saveNotes = asyncHandler(async (req, res) => {
+  const { notes, codeSnippets, links } = req.body;
+  const session = await Session.findById(req.params.id);
+
+  if (!session) {
+    res.status(404);
+    throw new Error('Session not found');
+  }
+
+  const isParticipant = session.participants.some(p => p.toString() === req.user._id.toString());
+  if (!isParticipant) {
+    res.status(403);
+    throw new Error('Not authorized');
+  }
+
+  session.resources = {
+    notes: notes || session.resources?.notes || '',
+    codeSnippets: codeSnippets || session.resources?.codeSnippets || '',
+    links: links || session.resources?.links || []
+  };
+
+  await session.save();
+  res.json({ success: true, data: session });
+});
+
 export {
   createSession,
   getUserSessions,
@@ -448,4 +473,6 @@ export {
   rejectSession,
   completeSession,
   cancelSession,
+  signContract,
+  saveNotes,
 };

@@ -1,12 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-/**
- * Generate a JWT token for a user ID
- * 
- * @param {string|object} id - The MongoDB User ID (string or ObjectId)
- * @returns {string} Signed JWT token
- * @throws {Error} If user ID or JWT_SECRET is missing
- */
 const generateToken = (id) => {
   if (!id) {
     throw new Error('User ID is required to generate a token');

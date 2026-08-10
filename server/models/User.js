@@ -1,14 +1,6 @@
-/**
- * @file User.js
- * @description Mongoose model for User profiles, authentication, skills, and credits.
- */
-
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-/**
- * Schema for skills that a user can teach.
- */
 const skillToTeachSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -30,9 +22,7 @@ const skillToTeachSchema = new mongoose.Schema({
   }
 });
 
-/**
- * Schema for skills that a user wants to learn.
- */
+
 const skillToLearnSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -45,10 +35,7 @@ const skillToLearnSchema = new mongoose.Schema({
     trim: true
   }
 });
-
-/**
- * User Schema definition.
- */
+// User Schema definition.
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -81,8 +68,42 @@ const userSchema = new mongoose.Schema({
     maxlength: [500, 'Bio cannot exceed 500 characters'],
     default: ''
   },
+  location: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  phone: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  countryCode: {
+    type: String,
+    default: '+1',
+    trim: true
+  },
   skillsToTeach: [skillToTeachSchema],
   skillsToLearn: [skillToLearnSchema],
+  badges: [{
+    name: String,
+    category: String,
+    icon: String,
+    score: Number,
+    earnedAt: { type: Date, default: Date.now }
+  }],
+  xp: {
+    type: Number,
+    default: 120
+  },
+  level: {
+    type: Number,
+    default: 1
+  },
+  streak: {
+    type: Number,
+    default: 1
+  },
   credits: {
     type: Number,
     default: 50,
@@ -124,28 +145,14 @@ userSchema.index({ 'skillsToTeach.name': 1 });
 userSchema.index({ 'skillsToLearn.name': 1 });
 userSchema.index({ role: 1 });
 
-/**
- * Pre-save middleware to hash password before saving to the database.
- * @param {Function} next - Mongoose next middleware function
- */
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password') || !this.password) {
-    return next();
+    return;
   }
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
-/**
- * Match user-entered password with hashed password in database.
- * @param {string} enteredPassword - The plain text password entered by user.
- * @returns {Promise<boolean>} Resolves to true if passwords match, false otherwise.
- */
 userSchema.methods.matchPassword = async function (enteredPassword) {
   if (!this.password) return false;
   return await bcrypt.compare(enteredPassword, this.password);

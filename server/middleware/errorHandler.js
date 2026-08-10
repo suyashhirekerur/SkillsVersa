@@ -4,15 +4,7 @@ const notFound = (req, res, next) => {
   next(error);
 };
 
-/**
- * Global error handling middleware.
- * Catches errors, formats response JSON, and handles specific Mongoose errors.
- * 
- * @param {Error} err - Error object
- * @param {import('express').Request} req - Express request object
- * @param {import('express').Response} res - Express response object
- * @param {import('express').NextFunction} next - Express next function
- */
+
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;

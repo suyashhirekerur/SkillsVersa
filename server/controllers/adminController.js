@@ -7,11 +7,6 @@ import Message from '../models/Message.js';
 import Transaction from '../models/Transaction.js';
 import Notification from '../models/Notification.js';
 
-/**
- * @desc    Get all users (admin only)
- * @route   GET /api/admin/users
- * @access  Private/Admin
- */
 const getAllUsers = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20, search, role } = req.query;
   const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -49,11 +44,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get user by ID (admin only)
- * @route   GET /api/admin/users/:id
- * @access  Private/Admin
- */
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
 
@@ -64,12 +54,6 @@ const getUserById = asyncHandler(async (req, res) => {
 
   res.json({ success: true, data: user });
 });
-
-/**
- * @desc    Update user (admin only)
- * @route   PUT /api/admin/users/:id
- * @access  Private/Admin
- */
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -91,11 +75,6 @@ const updateUser = asyncHandler(async (req, res) => {
   res.json({ success: true, data: user });
 });
 
-/**
- * @desc    Delete user and all related data (admin only)
- * @route   DELETE /api/admin/users/:id
- * @access  Private/Admin
- */
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -123,11 +102,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'User and all related data deleted' });
 });
 
-/**
- * @desc    Get all sessions (admin only)
- * @route   GET /api/admin/sessions
- * @access  Private/Admin
- */
 const getAllSessions = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20, status } = req.query;
   const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -158,11 +132,6 @@ const getAllSessions = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Get platform statistics (admin only)
- * @route   GET /api/admin/stats
- * @access  Private/Admin
- */
 const getStats = asyncHandler(async (req, res) => {
   const [
     totalUsers,

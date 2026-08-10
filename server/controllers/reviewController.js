@@ -4,11 +4,6 @@ import Session from '../models/Session.js';
 import User from '../models/User.js';
 import Notification from '../models/Notification.js';
 
-/**
- * @desc    Create a review for a completed session
- * @route   POST /api/reviews
- * @access  Private
- */
 const createReview = asyncHandler(async (req, res) => {
   const { sessionId, rating, comment } = req.body;
 
@@ -100,11 +95,6 @@ const createReview = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: populatedReview });
 });
 
-/**
- * @desc    Get reviews for a user
- * @route   GET /api/reviews/user/:id
- * @access  Private
- */
 const getUserReviews = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
   const skip = (parseInt(page) - 1) * parseInt(limit);

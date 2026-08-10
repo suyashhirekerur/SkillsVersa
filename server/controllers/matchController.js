@@ -1,11 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import { findMatches, exploreUsers } from '../utils/matchAlgorithm.js';
 
-/**
- * @desc    Get skill matches for current user
- * @route   GET /api/matches
- * @access  Private
- */
 const getMatches = asyncHandler(async (req, res) => {
   const { category, skill, limit } = req.query;
   const options = {
@@ -23,11 +18,6 @@ const getMatches = asyncHandler(async (req, res) => {
   });
 });
 
-/**
- * @desc    Explore users with filters
- * @route   GET /api/matches/explore
- * @access  Private
- */
 const explore = asyncHandler(async (req, res) => {
   const { category, skill, page, limit } = req.query;
   const filters = {
