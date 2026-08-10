@@ -123,7 +123,10 @@ export default function Register() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => window.location.href = 'http://localhost:5000/api/auth/google'}
+            onClick={() => {
+              const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
+              window.location.href = `${serverUrl}/api/auth/google`;
+            }}
             className="w-full mt-6 py-3 px-4 bg-white/5 border border-white/10 text-white rounded-xl font-medium shadow-sm hover:bg-white/10 transition-all flex items-center justify-center space-x-3"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
